@@ -1,6 +1,7 @@
 import { Suspense, useEffect, useState } from "react";
 import wrapPromise from "../../utils/wrapPromise";
 import { Link, useLocation } from "react-router-dom";
+import ENDPOINTS from "../../constants/api/endpoints";
 
 type TProduct = {
   productId: string;
@@ -12,12 +13,12 @@ type TProduct = {
 };
 
 async function getProducts(): Promise<any> {
-  const resp = await fetch(
-    "https://emsgkgcfxvlszirzlcowo56eai0bplzp.lambda-url.us-west-1.on.aws/products",
-    {
-      method: "GET",
-    }
-  );
+  const resp = await fetch(ENDPOINTS.getProducts, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
 
   if (resp.ok) {
     const data = await resp.json();

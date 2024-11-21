@@ -1,7 +1,8 @@
-import { Suspense, useEffect, useState } from "react";
+import { Suspense } from "react";
 import wrapPromise from "../../utils/wrapPromise";
 import { Link, useLocation } from "react-router-dom";
 import ENDPOINTS from "../../constants/api/endpoints";
+import useSignUpContext from "../../hooks/useSignUpContext";
 
 type TProduct = {
   productId: string;
@@ -50,12 +51,16 @@ const wrappedProductsPromiseRequest = wrapPromise<TProduct[]>(getProducts());
 function ProductsList() {
   const request = wrappedProductsPromiseRequest.read();
   const location = useLocation();
+  const { setProductId } = useSignUpContext();
   return (
     <ul className="flex flex-col gap-2 mr-2">
       {request.map((item) => (
         <li key={item.priceId}>
           <Link
-            to={`${location.pathname}/create-account?productId=${item.productId}`}
+            to={`${location.pathname}/create-account`}
+            onClick={() => {
+              setProductId(item.priceId);
+            }}
           >
             <div className="hover:bg-slate-700 duration-500 p-2 border border-white border-solid rounded-lg">
               <h2 className="font-bold border-b border-white border-solid">

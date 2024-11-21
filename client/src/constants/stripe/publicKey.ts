@@ -1,0 +1,4 @@
+const STRIPE_PUBLIC_KEY =
+  "pk_test_51QKrfRLJih1LMxtDiYjaeEqwcU0l0ar6CPiZ4vgQjoEOIvAah0pZrAH8U6z4xLk3l8devcrFcE5onWNDl0zmoZ2G00Zwbl1Ozw";
+
+export default STRIPE_PUBLIC_KEY;

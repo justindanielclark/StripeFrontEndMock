@@ -1,79 +1,43 @@
-import React, { createContext, useContext, useState, useCallback } from "react";
+import { createContext, useContext, useState } from "react";
 
-type TSignUpDetails = {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-  passwordConfirm: string;
-  phoneNumber: string;
-  userTimeDisplayPreference: string;
-  organizationPhoneNumber: string;
-  organizationName: string;
-  organizationAddressCity: string;
-  organizationAddressState: string;
-  organizationAddressStreet1: string;
-  organizationAddressStreet2: string;
-  organizationAddressZip: string;
-  organizationCurrencyPreference: string;
+type TSignupContext = {
+  getProductId: () => string | null;
+  setProductId: (productId: string | null) => void;
 };
 
-// Define the context type
-type SignUpContextType = {
-  signUpDetails: TSignUpDetails;
-  setSignUpField: <K extends keyof TSignUpDetails>(
-    field: K,
-    value: TSignUpDetails[K]
-  ) => void;
+export const SignUpContext = createContext<TSignupContext>({
+  getProductId: () => {
+    throw new Error("Uninitialized Context");
+  },
+  setProductId: () => {
+    throw new Error("Uninitialized Context");
+  },
+});
+
+type TProps = {
+  children: React.ReactElement | React.ReactElement[] | string;
 };
-
-// Create the context
-const SignUpContext = createContext<SignUpContextType | undefined>(undefined);
-
-// Provider component
-export const SignUpProvider: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
-  const [signUpDetails, setSignUpDetails] = useState<TSignUpDetails>({
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-    passwordConfirm: "",
-    phoneNumber: "",
-    userTimeDisplayPreference: "",
-    organizationPhoneNumber: "",
-    organizationName: "",
-    organizationAddressCity: "",
-    organizationAddressState: "",
-    organizationAddressStreet1: "",
-    organizationAddressStreet2: "",
-    organizationAddressZip: "",
-    organizationCurrencyPreference: "",
-  });
-
-  const setSignUpField = useCallback(
-    <K extends keyof TSignUpDetails>(field: K, value: TSignUpDetails[K]) => {
-      setSignUpDetails((prevState) => ({
-        ...prevState,
-        [field]: value,
-      }));
-    },
-    []
-  );
+export function SignupContextProvider({ children }: TProps) {
+  const [productId, setProductId] = useState<string | null>(null);
+  const getProductIdFunc = () => {
+    return productId;
+  };
+  const setProductIdFunc = (productId: string | null) => {
+    setProductId(productId);
+  };
 
   return (
-    <SignUpContext.Provider value={{ signUpDetails, setSignUpField }}>
+    <SignUpContext.Provider
+      value={{
+        getProductId: getProductIdFunc,
+        setProductId: setProductIdFunc,
+      }}
+    >
       {children}
     </SignUpContext.Provider>
   );
-};
+}
 
-// Custom hook for consuming the context
-export const useSignUp = () => {
-  const context = useContext(SignUpContext);
-  if (!context) {
-    throw new Error("useSignUp must be used within a SignUpProvider");
-  }
-  return context;
-};
+export default function useSignUpContext() {
+  return useContext(SignUpContext);
+}

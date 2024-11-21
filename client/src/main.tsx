@@ -7,7 +7,8 @@ import Layout from "./pages/Layout";
 import SignUpLayout from "./pages/SignUp/Layout";
 import HomePage from "./pages/Home/HomePage";
 import ChooseProduct from "./pages/SignUp/ChooseProduct";
-import CreateAccount from "./pages/SignUp/CreateAccount";
+import RegisterEmailAndPassword from "./pages/SignUp/RegisterEmailAndPassword";
+import PaymentInformation from "./pages/SignUp/PaymentInformation";
 
 const router = createBrowserRouter([
   {
@@ -28,11 +29,11 @@ const router = createBrowserRouter([
           },
           {
             path: "/signup/create-account",
-            element: <CreateAccount />,
+            element: <RegisterEmailAndPassword />,
           },
           {
-            path: "/signup/create-payment-account",
-            element: <div>Create Payment Profile</div>,
+            path: "/signup/payment-information",
+            element: <PaymentInformation />,
           },
         ],
       },

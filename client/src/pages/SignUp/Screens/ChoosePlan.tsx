@@ -1,8 +1,7 @@
 import { Suspense } from "react";
-import wrapPromise from "../../utils/wrapPromise";
-import { Link, useLocation } from "react-router-dom";
-import ENDPOINTS from "../../constants/api/endpoints";
-import useSignUpContext from "../../hooks/useSignUpContext";
+import wrapPromise from "../../../utils/wrapPromise";
+import ENDPOINTS from "../../../constants/api/endpoints";
+import useSignUpContext from "../../../hooks/useSignUpContext";
 
 type TProduct = {
   productId: string;
@@ -35,7 +34,7 @@ async function getProducts(): Promise<any> {
   throw new Error("Failed to fetch products");
 }
 
-export default function ChooseProduct() {
+export default function ChoosePlan() {
   return (
     <div>
       <h1 className="text-lg font-bold border-b-4 mb-4">Choose Product</h1>
@@ -50,16 +49,16 @@ const wrappedProductsPromiseRequest = wrapPromise<TProduct[]>(getProducts());
 
 function ProductsList() {
   const request = wrappedProductsPromiseRequest.read();
-  const location = useLocation();
-  const { setProductId } = useSignUpContext();
+  const { setScreenName, setProductId, setPriceId } = useSignUpContext();
   return (
-    <ul className="flex flex-col gap-2 mr-2">
+    <ul className="flex flex-row gap-2 mr-2">
       {request.map((item) => (
-        <li key={item.priceId}>
-          <Link
-            to={`${location.pathname}/create-account`}
+        <li key={item.productId}>
+          <button
             onClick={() => {
-              setProductId(item.priceId);
+              setPriceId(item.priceId);
+              setProductId(item.productId);
+              setScreenName("EmailSignup");
             }}
           >
             <div className="hover:bg-slate-700 duration-500 p-2 border border-white border-solid rounded-lg">
@@ -74,7 +73,7 @@ function ProductsList() {
                 }).format(item.priceInCents / 100)}
               </p>
             </div>
-          </Link>
+          </button>
         </li>
       ))}
     </ul>

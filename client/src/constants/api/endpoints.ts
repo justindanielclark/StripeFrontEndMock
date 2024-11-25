@@ -2,7 +2,7 @@ const prefix = "http://localhost:3000";
 
 const ENDPOINTS = Object.freeze({
   getProducts: `${prefix}/products`,
-  setupCustomer: `${prefix}/setupcustomer`,
+  setuppaymentintent: `${prefix}/setuppaymentintent`,
 });
 
 export default ENDPOINTS;

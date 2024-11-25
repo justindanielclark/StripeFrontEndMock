@@ -1,14 +1,11 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
-
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Layout from "./pages/Layout";
-import SignUpLayout from "./pages/SignUp/Layout";
 import HomePage from "./pages/Home/HomePage";
-import ChooseProduct from "./pages/SignUp/ChooseProduct";
-import RegisterEmailAndPassword from "./pages/SignUp/RegisterEmailAndPassword";
-import PaymentInformation from "./pages/SignUp/PaymentInformation";
+import SignUpPage from "./pages/SignUp/SignUpPage";
+import { SignupContextProvider } from "./hooks/useSignUpContext";
 
 const router = createBrowserRouter([
   {
@@ -21,21 +18,15 @@ const router = createBrowserRouter([
       },
       {
         path: "/signup",
-        element: <SignUpLayout />,
-        children: [
-          {
-            path: "/signup",
-            element: <ChooseProduct />,
-          },
-          {
-            path: "/signup/create-account",
-            element: <RegisterEmailAndPassword />,
-          },
-          {
-            path: "/signup/payment-information",
-            element: <PaymentInformation />,
-          },
-        ],
+        element: (
+          <SignupContextProvider>
+            <SignUpPage />
+          </SignupContextProvider>
+        ),
+      },
+      {
+        path: "/success",
+        element: <div>Success!</div>,
       },
     ],
   },

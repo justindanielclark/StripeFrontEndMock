@@ -3,6 +3,7 @@ import { useMemo } from "react";
 import ChoosePlan from "./Screens/ChoosePlan";
 import EmailSignUp from "./Screens/EmailSignUp";
 import ReceivePaymentInformation from "./Screens/ReceivePaymentInformation";
+import EmailVerify from "./Screens/EmailVerify";
 
 export default function SignUpPage() {
   const { getScreenName } = useSignUpContext();
@@ -16,7 +17,7 @@ export default function SignUpPage() {
         return <EmailSignUp />;
       }
       case "EmailVerify": {
-        return <div>Choose Plan</div>;
+        return <EmailVerify />;
       }
       case "ReceivePaymentInfo": {
         return <ReceivePaymentInformation />;

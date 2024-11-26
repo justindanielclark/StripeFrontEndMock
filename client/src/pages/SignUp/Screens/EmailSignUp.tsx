@@ -1,10 +1,9 @@
-import { ChangeEvent, FormEvent, useMemo, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import useSignUpContext from "../../../hooks/useSignUpContext";
-import { useNavigate } from "react-router-dom";
 import ENDPOINTS from "../../../constants/api/endpoints";
 
 type TServerResponse = {
-  clientSecret: string;
+  inviteId: string;
 };
 
 type TFormData = {
@@ -22,7 +21,8 @@ export default function EmailSignUp() {
     setPriceId,
     getProductId,
     getPriceId,
-    setStripeClientSecret,
+    setClientEmail,
+    setInviteId,
   } = useSignUpContext();
   const [error, setError] = useState<boolean>(false);
   const [sending, setSending] = useState<boolean>(false);
@@ -44,13 +44,13 @@ export default function EmailSignUp() {
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (!sending) {
-      setuppaymentintent();
+      signUp();
     }
   }
 
-  async function setuppaymentintent() {
+  async function signUp() {
     setSending(true);
-    const resp = await fetch(ENDPOINTS.setuppaymentintent, {
+    const resp = await fetch(ENDPOINTS.signUp, {
       method: "POST",
       body: JSON.stringify({ ...formData, productId, priceId }),
       headers: {
@@ -59,8 +59,9 @@ export default function EmailSignUp() {
     });
     if (resp.ok) {
       const parsed = (await resp.json()) as TServerResponse;
-      setStripeClientSecret(parsed.clientSecret);
-      setScreenName("ReceivePaymentInfo");
+      setInviteId(parsed.inviteId);
+      setScreenName("EmailVerify");
+      setClientEmail(formData.email);
     } else {
       setError(true);
     }

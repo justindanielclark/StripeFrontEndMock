@@ -12,6 +12,10 @@ const screens = [
 type TScreenName = (typeof screens)[number];
 
 type TSignupContext = {
+  getClientEmail: () => string | null;
+  setClientEmail: (email: string | null) => void;
+  getInviteId: () => string | null;
+  setInviteId: (inviteId: string | null) => void;
   getPriceId: () => string | null;
   setPriceId: (productId: string | null) => void;
   getProductId: () => string | null;
@@ -23,6 +27,18 @@ type TSignupContext = {
 };
 
 export const SignUpContext = createContext<TSignupContext>({
+  getInviteId: () => {
+    throw new Error("Uninitialized Context");
+  },
+  setInviteId: () => {
+    throw new Error("Uninitialized Context");
+  },
+  getClientEmail: () => {
+    throw new Error("Uninitialized Context");
+  },
+  setClientEmail: () => {
+    throw new Error("Uninitialized Context");
+  },
   getPriceId: () => {
     throw new Error("Uninitialized Context");
   },
@@ -53,13 +69,23 @@ type TProps = {
   children: React.ReactElement | React.ReactElement[] | string;
 };
 export function SignupContextProvider({ children }: TProps) {
+  const [inviteId, setInviteId] = useState<string | null>(null);
   const [stripeClientSecret, setStripeClientSecret] = useState<string | null>(
     null
   );
+  const [clientEmail, setClientEmail] = useState<string | null>(null);
   const [priceId, setPriceId] = useState<string | null>(null);
   const [productId, setProductId] = useState<string | null>(null);
   const [screenName, setScreenName] = useState<TScreenName>("ChoosePlan");
 
+  const getInviteIdFunc = useCallback(() => inviteId, [inviteId]);
+  const setInviteIdFunc = useCallback((inviteId: string | null) => {
+    setInviteId(inviteId);
+  }, []);
+  const getClientEmailFunc = useCallback(() => clientEmail, [clientEmail]);
+  const setClientEmailFunc = useCallback((clientEmail: string | null) => {
+    setClientEmail(clientEmail);
+  }, []);
   const getPriceIdFunc = useCallback(() => priceId, [priceId]);
   const setPriceIdFunc = useCallback((priceId: string | null) => {
     setPriceId(priceId);
@@ -86,6 +112,10 @@ export function SignupContextProvider({ children }: TProps) {
   return (
     <SignUpContext.Provider
       value={{
+        getInviteId: getInviteIdFunc,
+        setInviteId: setInviteIdFunc,
+        getClientEmail: getClientEmailFunc,
+        setClientEmail: setClientEmailFunc,
         getPriceId: getPriceIdFunc,
         setPriceId: setPriceIdFunc,
         getProductId: getProductIdFunc,

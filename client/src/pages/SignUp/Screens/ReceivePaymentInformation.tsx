@@ -1,5 +1,5 @@
 import { FormEvent, useState } from "react";
-import { StripeCardElement, loadStripe } from "@stripe/stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
 import STRIPE_PUBLIC_KEY from "../../../constants/stripe/publicKey";
 import {
   useElements,
@@ -63,7 +63,7 @@ function PaymentForm({ clientSecret }: TProps) {
       clientSecret,
       elements,
       confirmParams: {
-        return_url: "http://localhost:5173/sucess",
+        return_url: "http://localhost:5173/success",
       },
     });
 

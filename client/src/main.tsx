@@ -26,7 +26,19 @@ const router = createBrowserRouter([
       },
       {
         path: "/success",
-        element: <div>Success!</div>,
+        element: (
+          <div className="w-full h-full flex flex-row items-center justify-center">
+            Success!
+          </div>
+        ),
+      },
+      {
+        path: "contactus",
+        element: (
+          <div className="w-full h-full flex flex-row items-center justify-center">
+            Contact Us!
+          </div>
+        ),
       },
     ],
   },

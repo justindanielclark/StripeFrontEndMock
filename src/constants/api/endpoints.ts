@@ -1,5 +1,5 @@
 const prefix =
-  "https://emsgkgcfxvlszirzlcowo56eai0bplzp.lambda-url.us-west-1.on.aws";
+  "https://iodywaajmaitrcxx3atz2l6zxu0grmwy.lambda-url.us-west-1.on.aws";
 
 const ENDPOINTS = Object.freeze({
   getProducts: `${prefix}/products`,
